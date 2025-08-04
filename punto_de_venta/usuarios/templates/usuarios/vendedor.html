@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Punto de Venta - Vendedor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Punto de Venta</a>
+        <span class="navbar-text">
+            Bienvenido, Vendedor
+        </span>
+        {% comment %} <a href="{% url 'logout' %}" class="btn btn-outline-danger">Cerrar Sesión</a> {% endcomment %}
+        <a href="#" class="btn btn-outline-danger">Cerrar Sesión</a>
+    </div>
+</nav>
+
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Productos Disponibles</h3>
+                </div>
+                <div class="card-body">
+                    {% comment %} <form action="{% url 'iniciar_nueva_venta' %}" method="post"> {% endcomment %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Buscar producto...">
+                            <button class="btn btn-outline-secondary" type="button">Buscar</button>
+                        </div>
+                        <div class="row row-cols-1 row-cols-md-3 g-4">
+                            <div class="col">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Leche Alpura</h5>
+                                        <p class="card-text">Precio: $25.50</p>
+                                        {% comment %} <form action="{% url 'agregar_al_carrito' %}" method="post"> {% endcomment %}
+                                        <form method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="producto_id" value="1">
+                                            <button type="submit" class="btn btn-primary">Agregar al Carrito</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Pan Bimbo</h5>
+                                        <p class="card-text">Precio: $35.00</p>
+                                        {% comment %} <form action="{% url 'agregar_al_carrito' %}" method="post"> {% endcomment %}
+                                        <form method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="producto_id" value="2">
+                                            <button type="submit" class="btn btn-primary">Agregar al Carrito</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Carrito de Compras</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Leche Alpura (2)
+                            <span class="badge bg-primary rounded-pill">$51.00</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Pan Bimbo (1)
+                            <span class="badge bg-primary rounded-pill">$35.00</span>
+                        </li>
+                    </ul>
+                    <h4>Total: <span class="float-end">$86.00</span></h4>
+                    {% comment %} <form action="{% url 'finalizar_venta' %}" method="post" class="mt-4"> {% endcomment %}
+                    <form method="post" class="mt-4">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success w-100">Finalizar Venta</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
