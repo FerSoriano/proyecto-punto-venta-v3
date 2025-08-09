@@ -5,10 +5,14 @@ from django.http import HttpResponse
 
 # Create your views here.
 def home(request):
+    # TODO: completar funcion de Home
+    # si no esta loggeado, redireccinar al loggin
+    # si esta loggeado, mandar a su dashboard (vendedor o admin)
     return HttpResponse('Hello world')
 
 
 def login(request):
+    # TODO: Pendiente completar Login
     if request.method == 'POST':
         user = request.POST.get('username')
         password = request.POST.get('password')
@@ -19,7 +23,6 @@ def login(request):
         # Redireccionar para evitar reenviar el formulario al refrescar
         return redirect('home')
 
-    # Si es GET, muestra todos los posts
     return render(
         request,
         'usuarios/login.html'
@@ -29,12 +32,12 @@ def login(request):
 def dashboard_admin(request):
     return render(
         request,
-        'usuarios/admin.html'
+        'usuarios/dashboard_admin.html'
     )
 
 
 def dashboard_ventas(request):
     return render(
         request,
-        'usuarios/vendedor.html'
+        'usuarios/dashboard_vendedor.html'
     )
