@@ -20,7 +20,7 @@ import debug_toolbar
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('usuarios/', include('usuarios.urls')),
+    path('', include('usuarios.urls')),
     path('inventario/', include('inventario.urls')),
     path('__debug__/', include(debug_toolbar.urls))  # para usar django-debug-toolbar
 ]

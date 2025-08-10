@@ -8,7 +8,7 @@ class Producto(models.Model):
     existencias = models.IntegerField()
     nivel_reorden = models.IntegerField()
     status = models.BooleanField(default=True)
-    fecha_alta = models.DateTimeField(auto_now=True)
+    fecha_alta = models.DateTimeField(auto_now_add=True)
     fecha_modificacion = models.DateTimeField(auto_now=True)
 
     @property  # se calcula dinamicamente en lugar de guardarse en la BBDD
@@ -16,4 +16,4 @@ class Producto(models.Model):
         return self.nivel_reorden >= self.existencias
 
     def __str__(self):
-        return f"{self.nombre} - Estatus: {self.status} - Resurtir {self.resurtir}"
+        return f"{self.nombre} - {'Activo' if self.status else 'Inactivo'} {'- Resurtir' if self.resurtir else ''}"
