@@ -31,21 +31,25 @@
                                 <td>${{ producto.precio_venta }}</td>
                                 <td>{{ producto.existencias }}</td>
                                 <td>{{ producto.nivel_reorden }}</td>
-                                <td>{{ producto.resurtir }}</td>
+                                <td>
+                                    {% if producto.resurtir %}
+                                        Sí
+                                    {% else %}
+                                        No
+                                    {% endif %}
+                                </td>
                                 <td>{{ producto.fecha_alta }}</td>
                                 <td>{{ producto.fecha_modificacion }}</td>
-
                                 <td>
                                     <a href="{% url 'editar_producto' producto.id %}" class="btn btn-warning btn-sm">Editar</a>
-                                    <form action="{% url 'eliminar_producto' producto.id %}" method="post" class="d-inline">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                                    </form>
+                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmarEliminarModal" data-producto-id="{{ producto.id }}" data-producto-nombre="{{ producto.nombre }}">
+                                        Eliminar
+                                    </button>
                                 </td>
                             </tr>
                         {% empty %}
                             <tr>
-                                <td colspan="6" class="text-center">No hay productos registrados.</td>
+                                <td colspan="9" class="text-center">No hay productos registrados.</td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -53,4 +57,43 @@
             </div>
         </div>
     </div>
+    
+    <div class="modal fade" id="confirmarEliminarModal" tabindex="-1" aria-labelledby="confirmarEliminarModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="confirmarEliminarModalLabel">Confirmar Eliminación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro de que quieres eliminar el producto <strong id="productoNombre"></strong>? Esta acción no se puede deshacer.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <form id="formEliminarProducto" method="post" action="">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock content %}
+
+{% block extra_js %}
+<script>
+    const confirmarEliminarModal = document.getElementById('confirmarEliminarModal');
+    confirmarEliminarModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const productoId = button.getAttribute('data-producto-id');
+        const productoNombre = button.getAttribute('data-producto-nombre');
+
+        const modalNombre = confirmarEliminarModal.querySelector('#productoNombre');
+        modalNombre.textContent = productoNombre;
+
+        const formEliminar = confirmarEliminarModal.querySelector('#formEliminarProducto');
+        
+        formEliminar.action = `${productoId}/eliminar/`;
+    });
+</script>
+{% endblock extra_js %}

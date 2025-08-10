@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseNotFound
+from django.contrib import messages
+
 from .models import Producto
 
 
@@ -29,6 +31,7 @@ def editar_producto(request, id):
         producto.nivel_reorden = request.POST.get('nivel_reorden')
 
         producto.save()
+        messages.info(request, f'El producto "{producto.nombre}" ha sido modificado exitosamente.')
         return redirect('lista_productos')
 
     return render(
@@ -40,5 +43,12 @@ def editar_producto(request, id):
     )
 
 
-def eliminar_producto(request):
-    pass
+def eliminar_producto(request, id):
+    producto = get_object_or_404(Producto, id=id)
+    if request.method == 'POST':
+        producto.status = False
+        producto.save()
+        messages.success(request, f'El producto "{producto.nombre}" ha sido eliminado exitosamente.')
+        return redirect('lista_productos')
+
+    return redirect('lista_productos')
