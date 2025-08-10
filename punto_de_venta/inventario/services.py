@@ -1,7 +1,7 @@
 from .models import Producto
 
 
-def contar_productos_activos():
+def contar_productos_activos() -> int:
     total_productos = 0
     productos = Producto.objects.filter(status=True)
     for producto in productos:
