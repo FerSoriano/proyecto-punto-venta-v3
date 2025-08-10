@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponseNotFound
+# from django.http import HttpResponseNotFound
 from django.contrib import messages
 
 from .models import Producto
 
 
 def lista_productos(request):
-    productos = Producto.objects.all().order_by('nombre')
+    productos = Producto.objects.filter(status=True).order_by('nombre')
     return render(
         request,
         'inventario/productos.html',
