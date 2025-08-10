@@ -22,17 +22,11 @@ def editar_producto(request, id):
     producto = get_object_or_404(Producto, id=id)
 
     if request.method == 'POST':
-        nombre = request.POST.get('nombre')
-        precio_compra = request.POST.get('precio_compra')
-        precio_venta = request.POST.get('precio_venta')
-        existencias = request.POST.get('existencias')
-        nivel_reorden = request.POST.get('nivel_reorden')
-
-        producto.nombre = nombre
-        producto.precio_compra = precio_compra
-        producto.precio_venta = precio_venta
-        producto.existencias = existencias
-        producto.nivel_reorden = nivel_reorden
+        producto.nombre = request.POST.get('nombre')
+        producto.precio_compra = request.POST.get('precio_compra')
+        producto.precio_venta = request.POST.get('precio_venta')
+        producto.existencias = request.POST.get('existencias')
+        producto.nivel_reorden = request.POST.get('nivel_reorden')
 
         producto.save()
         return redirect('lista_productos')
