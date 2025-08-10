@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Crear Nuevo Producto{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Crear Nuevo Producto</h1>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form action="{% url 'crear_producto' %}" method="post">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre del Producto</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="precio_compra" class="form-label">Precio de Compra</label>
+                    <input type="number" class="form-control" id="precio_compra" name="precio_compra" step="0.01" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="precio_venta" class="form-label">Precio de Venta</label>
+                    <input type="number" class="form-control" id="precio_venta" name="precio_venta" step="0.01" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="existencias" class="form-label">Existencias</label>
+                    <input type="number" class="form-control" id="existencias" name="existencias" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="nivel_reorden" class="form-label">Nivel de Reorden</label>
+                    <input type="number" class="form-control" id="nivel_reorden" name="nivel_reorden" required>
+                </div>
+
+                <div class="d-flex justify-content-start">
+                    <button type="submit" class="btn btn-success me-2">Crear</button>
+                    <a href="{% url 'lista_productos' %}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
