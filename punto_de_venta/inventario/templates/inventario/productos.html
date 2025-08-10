@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Productos{% endblock title %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <h4>Productos en Inventario</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Precio de Compra</th>
+                            <th>Precio de Venta</th>
+                            <th>Existencias</th>
+                            <th>Nivel de Reorden</th>
+                            <th>Resurtir</th>
+                            <th>Fecha de Alta</th>
+                            <th>Última Modificación</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for producto in productos %}
+                            <tr {% if producto.resurtir %} class="table-warning" {% endif %}>
+                                <td>{{ producto.nombre }}</td>
+                                <td>${{ producto.precio_compra }}</td>
+                                <td>${{ producto.precio_venta }}</td>
+                                <td>{{ producto.existencias }}</td>
+                                <td>{{ producto.nivel_reorden }}</td>
+                                <td>{{ producto.resurtir }}</td>
+                                <td>{{ producto.fecha_alta }}</td>
+                                <td>{{ producto.fecha_modificacion }}</td>
+
+                                <td>
+                                    <a href="{% url 'editar_producto' producto.id %}" class="btn btn-warning btn-sm">Editar</a>
+                                    <form action="{% url 'eliminar_producto' producto.id %}" method="post" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center">No hay productos registrados.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

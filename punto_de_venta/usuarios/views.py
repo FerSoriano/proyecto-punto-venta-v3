@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from inventario.services import contar_productos_activos
 # from functools import wraps # pendiente cuando se implemente loggin
 
 
@@ -8,20 +9,20 @@ def home(request):
     # TODO: completar funcion de Home
     # si no esta loggeado, redireccinar al loggin
     # si esta loggeado, mandar a su dashboard (vendedor o admin)
-    return HttpResponse('Hello world')
+    return redirect('login')
 
 
 def login(request):
     # TODO: Pendiente completar Login
     if request.method == 'POST':
         user = request.POST.get('username')
-        password = request.POST.get('password')
+        password = request.POST.get('password') # noqa
 
-        # imprimimos valores de prueba
-        print(user, password)
-
-        # Redireccionar para evitar reenviar el formulario al refrescar
-        return redirect('home')
+        # redireccionamiento de prueba
+        if user == 'admin':
+            return redirect('dashboard_admin')
+        if user == 'vend':
+            return redirect('dashboard_ventas')
 
     return render(
         request,
@@ -30,9 +31,13 @@ def login(request):
 
 
 def dashboard_admin(request):
+    productos_activos = contar_productos_activos()
     return render(
         request,
-        'usuarios/dashboard_admin.html'
+        'usuarios/dashboard_admin.html',
+        {
+            'productos_activos': productos_activos
+        }
     )
 
 
